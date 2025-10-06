@@ -7,6 +7,7 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ComicController extends Controller
 {
@@ -15,7 +16,11 @@ class ComicController extends Controller
      */
     public function index()
     {
-        $comics=Comic::with('liked')->latest()->get();
+        $comics = Comic::with('liked')->latest()->get();
+        $query = Comic::query();
+        $comics=$query->latest()->paginate(10);
+
+
         return view('comics.index', compact('comics'));
     }
 
@@ -33,14 +38,22 @@ class ComicController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
+            'title' => [
+                        'required',
+                        'max:255',
+                        Rule::unique('comics')->where(function ($query) use ($request) {
+                        return $query->where('author', $request->author);
+                        }),
+                    ],
             'author' => 'required|max:255',
             'publisher' => 'nullable|max:255',
             'description' => 'nullable|max:400',
             'image' => 'nullable|image',
+        ], [
+            'tilte.unique' => 'その作者のその作品はすでに登録されています。',
         ]);
 
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('images', 'public');
         }
 
@@ -55,12 +68,11 @@ class ComicController extends Controller
     public function show(Comic $comic)
     {
         $comic->load('comments');
-        $existReview=null;
-        if (Auth::check()){
+        $existReview = null;
+        if (Auth::check()) {
             $existReview = Comment::where('comic_id', $comic->id)
-                                    ->where('user_id', auth()->id())
-                                    ->first();
-
+                ->where('user_id', auth()->id())
+                ->first();
         }
         return view('comics.show', compact('comic', 'existReview'));
     }
@@ -79,17 +91,25 @@ class ComicController extends Controller
     public function update(Request $request, Comic $comic)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
+            'title' => [
+                        'required',
+                        'max:255',
+                        Rule::unique('comics')->where(function ($query) use ($request) {
+                        return $query->where('author', $request->author);
+                        })->ignore($comic->id),
+                    ],
             'author' => 'required|max:255',
             'publisher' => 'nullable|max:255',
             'description' => 'nullable|max:400',
+        ], [
+            'title.unique' => 'その作者のその作品はすでに登録されています。',
         ]);
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $request->validate([
                 'image' => 'nullable|image',
             ]);
             if ($comic->image) {
-            Storage::disk('public')->delete($comic->image);
+                Storage::disk('public')->delete($comic->image);
             }
             $validated['image'] = $request->file('image')->store('images', 'public');
         }
@@ -106,5 +126,24 @@ class ComicController extends Controller
     {
         $comic->delete();
         return redirect()->route('comics.index');
+    }
+
+    public function search(Request $request)
+    {
+
+        $query = Comic::query();
+
+        // キーワードが指定されている場合のみ検索を実行
+        if ($request->filled('keyword')) {
+            $keyword = $request->keyword;
+            $query->where('title', 'like', '%' . $keyword . '%');
+        }
+
+        // ページネーションを追加（1ページに10件表示）
+        $comics = $query
+            ->latest()
+            ->paginate(10);
+
+        return view('comics.search', compact('comics'));
     }
 }

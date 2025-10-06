@@ -4,6 +4,9 @@ use App\Models\Comic;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
 
 it('displays comics on the list page', function () {
 
@@ -125,4 +128,39 @@ it ('allows a user to delete ', function(){
 
     $response->assertStatus(302);
     $response->assertRedirect('/comics');
+});
+
+it('can search comics by title keyword', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    Comic::factory()->create([
+        'title' => 'これはテスト用のすごい漫画',
+    ]);
+
+    Comic::factory()->create([
+        'title' => 'これは別の普通の漫画',
+    ]);
+
+    $response = $this->get(route('comics.search', ['keyword' => 'すごい']));
+
+
+    $response->assertStatus(200);
+    $response->assertSee('これはテスト用のすごい漫画');
+    $response->assertDontSee('これは別の普通の漫画');
+});
+
+it('shows a message if no comics are found', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    Comic::factory()->create([
+        'title' => '存在する漫画',
+    ]);
+
+    $response = $this->get(route('comics.search', ['keyword' => '存在しないキーワード']));
+
+    $response->assertStatus(200);
+    $response->assertDontSee('存在する漫画');
+    $response->assertSee('検索結果が見つかりませんでした。');
 });
