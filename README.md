@@ -1,61 +1,56 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ネクストエンジニアカタパルト Phase01 課題
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 挑戦した課題
 
-## About Laravel
+[] 初級
+[✅] 上級
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 実装した内容
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- 漫画レビューアプリを作成した．
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## デプロイ先の URL または画面収録したファイル名
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 操作手順
+<作品追加>
+1. 画面上部のナビゲーションの「作品 追加」をクリックすると検索画面に移動します．追加画面では作品のタイトル、作者、出版社、あらすじ、画像の入力フォームを配置しています。
+2. 作品追加フォームに入力していきます。タイトルと作者は入力必須。他は空白でも大丈夫です。タイトルと作者の組は重複しません。
+3. 追加のボタンを押すと作品が追加され、作品一覧に飛びます。
+<作品編集、削除>
+1. 詳細を見るから作品詳細画面に飛びます。
+2．作品概要の下の方に編集ボタンと削除ボタンがあります。だれでもできます。
+3．編集ボタンを押すと編集画面にとび、作品の編集ができます。編集を押すと結果が反映され作品詳細に戻ります。
+4. 削除ボタンを押すとほんとうに消しますかの確認が出てきて消すとすると作品一覧に戻ります。
+<作品一覧>
+1. 画面上部のナビゲーションの「作品一覧」をクリックすると作品一覧画面に移動します．
+2．作品のお気に入り登録をおすとお気に入り登録できます。
+3．もう一度押すとお気に入り登録解除できます。
+<作品レビュー>
+1. 作品一覧画面の作品の詳細を押すと作品の詳細画面に飛びます。
+2．作品詳細画面のレビューをするを押すと、レビュー作成画面に飛びます。
+3．レビュー画面ではレビューと星評価をします。
+4．レビューするをすると作品詳細画面に戻ります。作品の評価点はレビューの星評価の平均点と四捨五入した星の数を表示しています。レビューをすでにしているので先ほどレビューをするになっていたところがレビューを編集するに変化しています。
+これを押すとレビューの編集画面に飛びます。
+<お気に入り登録>
+1. 作品一覧、作品詳細でお気に入り登録をおすと作品をお気に入り登録できます。
+2．マイページやユーザーページにその人のお気に入り登録した作品が出ます。
+<ユーザーフォロー>
+1．作品詳細画面の作品概要の下にレビューが出ます。
+2．レビューのユーザーを押すとそのユーザーのユーザーページにとびます。
+3．ユーザーのfollowを押すとフォローでき、unfollowを押すとフォローを解除できます。
+4. それぞれのユーザーページにはフォロー数とフォロワー数がでて、フォローを押すとフォローしているユーザーの一覧がでます。
+## 工夫した点
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- 評価点を星で表現できるようにしたこと。
+- お気に入り登録した作品がマイページに一覧表示される。
+‐ フォローした人一覧が表示される。
+- 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 苦戦した点
 
-## Laravel Sponsors
+- 単数形や複数形などのlaravelの命名規則にかなり苦戦した。
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Phase01 終えての感想
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+何とか形になってよかったと思う。ある程度、プログラムの仕組みに慣れることができたのでいい経験になったと思う。今回の経験をいかし頑張っていきたい。
